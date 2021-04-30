@@ -49,6 +49,11 @@ class Flight
      */
     private $flightNumber;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $places;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -125,4 +130,17 @@ class Flight
 
         return $this;
     }
+
+    public function getPlaces(): ?int
+    {
+        return $this->places;
+    }
+
+    public function setPlaces(?int $places): self
+    {
+        $this->places = $places;
+
+        return $this;
+    }
+
 }

@@ -24,18 +24,22 @@ class AppFixtures extends Fixture
             $tabObjectsCities[] = $c;
         }
 
-        # Créer un nouveau flight pour alimenter la DB:
-        $flight = new Flight;
-        $flight
-            ->setFlightNumber("PL03771")
-            ->setFlightSchedule(\DateTime::createFromFormat("H:i", "08:00"))
-            ->setFlightPrice(342.60)
-            ->setDiscount(False)
-            ->setDeparture($tabObjectsCities[1])
-            ->setArrival($tabObjectsCities[0]);
-        $manager->persist($flight);
-
-        $manager->flush();
+        # Créer 3 nouveaux flights pour alimenter la DB:
+        for ($i=0; $i<3; $i++){
+            $flight = new Flight;
+            $random_nb = strval(mt_rand(1000,9999));
+            $flight
+                ->setFlightNumber("CA$random_nb")
+                ->setFlightSchedule(\DateTime::createFromFormat("H:i", "08:00"))
+                ->setFlightPrice(mt_rand(100,300))
+                ->setDiscount(false)
+                ->setDeparture($tabObjectsCities[$i])
+                ->setArrival($tabObjectsCities[$i+mt_rand(1,5)])
+                ->setPlaces(mt_rand(2, 50));
+            $manager->persist($flight);
+        }
+        
+            $manager->flush();
 
     }
 
