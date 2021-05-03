@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Flight
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-6">
+				<h1 class="my-3">Create new Flight</h1>
+				{{ include('flight/_form.html.twig') }}
+				<a class="btn btn-outline-primary text-uppercase" href="{{ path('flight_index') }}">back to list</a>
+			</div>
+		</div>
+	</div>
+{% endblock %}

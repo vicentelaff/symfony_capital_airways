@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Flight
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class="row justify-content-center">
+			<h1>Edit Flight</h1>
+
+			{{ include('flight/_form.html.twig', {'button_label': 'Update'}) }}
+
+			<div class="d-flex">
+				<a class="btn btn-outline-primary text-uppercase mx-4" href="{{ path('flight_index') }}">back to list</a>
+				{{ include('flight/_delete_form.html.twig') }}
+			</div>
+
+			{% set label = "success" %}
+			{% for message in app.flashes(label) %}
+				<div class="alert alert-{{ label }}">
+					{{ message }}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+{% endblock %}

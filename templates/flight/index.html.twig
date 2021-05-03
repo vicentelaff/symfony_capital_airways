@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Capital Airways - Flights:
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-12">
+				<h1 class="my-3">Capital Airways - Flights:</h1>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Schedule</th>
+							<th>Departure</th>
+							<th>Arrival</th>
+							<th>Flight Price</th>
+							{# <th>Discounts</th> #}
+							<th>Flight Number</th>
+							{# <th>Places</th> #}
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for flight in flights %}
+							<tr>
+								<td>{{ flight.flightSchedule ? flight.flightSchedule|date('H:i') : '' }}</td>
+								<td>{{ flight.departure.cityName }}</td>
+								<td>{{ flight.arrival.cityName }}</td>
+								<td>€{{ flight.flightPrice }}</td>
+								{# <td>{{ flight.discount ? 'Yes' : 'No' }}</td> #}
+								<td>{{ flight.flightNumber }}</td>
+								{# <td>{{ flight.places }}</td> #}
+								<td>
+									<a class="btn btn-outline-primary text-uppercase" href="{{ path('flight_show', {'id': flight.id}) }}">show</a>
+									{% if is_granted("ROLE_ADMIN") %}
+									<a class="btn btn-outline-warning text-uppercase" href="{{ path('flight_edit', {'id': flight.id}) }}">edit</a>
+									<form method="post" action="{{ path('flight_delete', {'id': flight.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ flight.id) }}">
+										<button class="btn btn-outline-danger text-uppercase">Delete</button>
+									</form>
+									{# <a class="btn btn-outline-danger text-uppercase" href="{{ path('flight_edit', {'id': flight.id}) }}">
+										<i class="fas fa-trash-alt"></i>
+									</a> #}
+									{% endif %}
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="7">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+				<a class="btn btn-outline-success text-uppercase" href="{{ path('flight_new') }}">Create new</a>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
