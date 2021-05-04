@@ -138,7 +138,7 @@ function __construct(FlightService $fs, UserPasswordEncoderInterface $passwordEn
 # NAVBAR
 - 2 liens: Accueil et Logout.
 
-# ROUTES
+# ROUTES ET SÉCURITÉ
 Dans SecurityController, on applique une route par défaut.
 Tout utilisateur arrive de ce fait par le formulaire.
 ```php
@@ -171,3 +171,21 @@ On peut déjà commencer a filtrer les utilisateurs avec:
  */
 class FlightController extends AbstractController
 ```
+## Filtrer les autorisations dans les vues:
+L'édition n'est accordée seulement à l'admin.
+```php
+<td>
+	<a class="btn btn-outline-primary text-uppercase" href="{{ path('flight_show', {'id': flight.id}) }}">show</a>
+	{% if is_granted("ROLE_ADMIN") %}
+		<a class="btn btn-outline-warning text-uppercase" href="{{ path('flight_edit', {'id': flight.id}) }}">edit</a>
+		<form method="post" action="{{ path('flight_delete', {'id': flight.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+			<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ flight.id) }}">
+			<button class="btn btn-outline-danger text-uppercase">Delete</button>
+		</form>
+	{% endif %}
+</td>
+```
+
+# PAGES D'ERREUR PERSONNALISÉES:
+- Doc: https://symfony.com/doc/current/controller/error_pages.html
+- Tester: Onne peut pas tester ces pages en mode dev, il faut passer l'URL directement, par ex. `http://localhost:8000/_error/404`.
